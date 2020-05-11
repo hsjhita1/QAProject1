@@ -1,8 +1,15 @@
 {% extends "layout.html" %}
 {% block body_content %}
-	{{ title }}
+	<h1>{{ title }}</h1>
 
-	This is a test
+	<div>
+		<h3>{{ post.title }}</h3>
+		<ul>
+			<li>{{ post.game }}</li>
+			<li>{{ post.first_name }} {{ post.last_name }}</li>
+			<li> --- {{ post.content }}</li>
+		</ul>
+	</div>
 
 {% endblock %}
 
