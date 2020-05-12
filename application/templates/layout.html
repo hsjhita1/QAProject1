@@ -4,8 +4,10 @@
 			{{ title }}
 		</title>
 		<a href="{{ url_for('home') }}">Home Page</a>
+		<a href="{{ url_for('post') }}">Post</a>
 		<a href="{{ url_for('login') }}">Login Page</a>
 		<a href="{{ url_for('register') }}">Register Page</a>
+		<p>-----------------------------------------------</p>
 	</head>
 	<body>
 		{% block body_content  %}{% endblock  %}

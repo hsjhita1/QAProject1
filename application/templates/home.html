@@ -2,20 +2,17 @@
 {% block body_content %}
 	<h1>{{ title }}</h1>
 
-	<div>
-		<h3>{{ post.title }}</h3>
-		<ul>
-			<li>{{ post.game }}</li>
-			<li>{{ post.first_name }} {{ post.last_name }}</li>
-			<li> --- {{ post.content }}</li>
-		</ul>
-	</div>
-
+	{% if posts %}
+		{% for post in posts %}
+		<div>
+			<h2>{{ post.title }}</h2>
+			<p><b> - Name: </b>{{ post.first_name }} {{ post.last_name }}</p>
+			<p><b> - Game: </b>{{ post.game }}</p>
+			<p> -- {{ post.content }}</p>
+		</div>
+		{% endfor %}
+	{% else %}
+		<p>There are no posts</p>
+		<a href="{{ url_for('post') }}">Click here to add a post</a>
+	{% endif %}
 {% endblock %}
-
-
-
-
-
-
-
