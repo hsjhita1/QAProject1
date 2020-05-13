@@ -28,3 +28,12 @@ class Users(db.Model, UserMixin):
 
     def __repr__(self):
         return ''.join(['UserID: ', str(self.id), '\r\n', 'Email: ', self.email])
+
+
+class Games(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game_name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+
+    def __repr__(self):
+        return ''.join(['GameID: ', str(self.id), '\r\n', 'Game Name: ', self.game_name])

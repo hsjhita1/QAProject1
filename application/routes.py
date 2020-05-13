@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
-from application.models import Posts, Users
+from application.models import Posts, Users, Games
 from application.forms import PostForm, RegistrationForm, LoginForm
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -70,3 +70,13 @@ def post():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/games')
+def games():
+    games = Games.query.all()
+    return render_template('games.html', title="Games", games = games)
+
+@app.route('/games/<name>')
+def gameName(name):
+    post = Posts.query.filter_by(game = name)
+    return render_template('one_game.html', title = name, posts = post)

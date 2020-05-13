@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body_content %}
+	<h1>{{ title }}</h1>
+    {% for game in games %}
+    <div>
+        <h1>
+            <a href="{{ url_for('gameName', name=game.game_name)}}">{{ game.game_name }}</a>
+        </h1>
+        <p><b> - Description: </b>{{ game.description }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}

@@ -7,7 +7,7 @@
 		<div>
 			<h2>{{ post.title }}</h2>
 			<p><b> - Username: </b>{{ post.user_name }}</p>
-			<p><b> - Game: </b><a href="{{ url_for('gameName', name=post.game)}}">{{ post.game }}</a></p>
+			<p><b> - Game: </b>{{ post.game }}</p>
 			<p> -- {{ post.content }}</p>
 		</div>
 		{% endfor %}
