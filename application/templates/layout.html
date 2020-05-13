@@ -3,11 +3,18 @@
 		<title>
 			{{ title }}
 		</title>
-		<a href="{{ url_for('home') }}">Home Page</a>
-		<a href="{{ url_for('post') }}">Post</a>
-		<a href="{{ url_for('login') }}">Login Page</a>
-		<a href="{{ url_for('register') }}">Register Page</a>
-		<p>-----------------------------------------------</p>
+		{% if current_user.is_authenticated %}
+			<a href="{{ url_for('home') }}">Home Page</a>
+			<a href="{{ url_for('post') }}">Post</a>
+			<a href="{{ url_for('logout') }}">Logout</a>
+			<p>Welcome {{ current_user.user_name }}</p>
+			<p>-----------------------------------------------</p>
+		{% else %}
+			<a href="{{ url_for('home') }}">Home Page</a>
+			<a href="{{ url_for('post') }}">Post</a>
+			<a href="{{ url_for('login') }}">Login</a>
+			<a href="{{ url_for('register') }}">Register</a>
+		{% endif %}
 	</head>
 	<body>
 		{% block body_content  %}{% endblock  %}

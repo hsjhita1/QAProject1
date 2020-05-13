@@ -11,6 +11,7 @@
 			<p> -- {{ post.content }}</p>
 		</div>
 		{% endfor %}
+		<a href="{{ url_for('post') }}">Click here to add a post</a>
 	{% else %}
 		<p>There are no posts</p>
 		<a href="{{ url_for('post') }}">Click here to add a post</a>
