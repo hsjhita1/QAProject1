@@ -3,25 +3,15 @@
     <div class='form'>
         <form method='POST' action=''>
             {{ form.hidden_tag() }}
-            {{ form.first_name.label }}
-            {{ form.first_name }}
-            {% if form.first_name.errors %}
+            {{ form.user_name.label }}
+            {{ form.user_name }}
+            {% if form.user_name.errors %}
                 <div>
-                    {% for error in form.first_name.errors %}
+                    {% for error in form.user_name.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
             {% endif %}
-            <br>
-            {{ form.last_name.label }}
-            {{ form.last_name }}
-            {% if form.last_name.errors %}
-                <div>
-                    {% for error in form.last_name.errors %}
-                       {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %} 
             <br>
             {{ form.title.label }}
             {{ form.title }}
