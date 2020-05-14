@@ -127,3 +127,17 @@ def account():
         form.last_name.data = current_user.last_name        
         form.email.data = current_user.email        
     return render_template('account.html', title='Update Account', form=form)
+
+
+@app.route('/account/delete', methods=['GET', 'POST'])
+@login_required
+def account_delete():
+    user = current_user.id
+    account = Users.query.filter_by(id = user).first()
+    posts = Posts.query.filter_by(user_id = user)
+    for post in posts:
+        db.session.delete(post)
+    logout_user()
+    db.session.delete(account)
+    db.session.commit()
+    return redirect(url_for('register'))

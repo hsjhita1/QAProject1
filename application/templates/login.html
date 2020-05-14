@@ -37,5 +37,8 @@
 				{{ form.remember }}
 			</div>
         </form>
+        <form action="{{ url_for('register') }}">
+            <button type="submit">Register</button>
+        </form>
     </div>
 {% endblock %}
