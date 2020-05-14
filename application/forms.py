@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from application.models import Users
 from flask_login import current_user
@@ -44,6 +44,29 @@ class NewGame(FlaskForm):
     )
 
     submit = SubmitField('Submit Game')
+
+class SellItem(FlaskForm):
+    game = StringField("Game : ",
+        validators = [
+            DataRequired(),
+            Length(min = 1, max = 500)
+        ]
+    )
+
+    description = StringField("Description : ",
+        validators = [
+            DataRequired(),
+            Length(min = 2, max = 500)
+        ]
+    )
+
+    price = FloatField("Price : ",
+        validators = [
+            DataRequired()
+        ]
+    )
+
+    submit = SubmitField('Sell Game')
 
 class RegistrationForm(FlaskForm):
     user_name = StringField("User Name : ",

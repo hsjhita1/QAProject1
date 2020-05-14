@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
-from application.models import Posts, Users, Games
-from application.forms import PostForm, RegistrationForm, LoginForm, NewGame, UpdateAccountForm
+from application.models import Posts, Users, Games, Market
+from application.forms import PostForm, RegistrationForm, LoginForm, NewGame, UpdateAccountForm, SellItem
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/')
@@ -9,6 +9,11 @@ from flask_login import login_user, current_user, logout_user, login_required
 def home():
     postData = Posts.query.all()
     return render_template('home.html', title='Home Page', posts=postData)
+
+@app.route('/market')
+def market():
+    marketData = Market.query.all()
+    return render_template('market.html', title = 'Market', sell = marketData)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -72,6 +77,25 @@ def post():
     else:
         print(form.errors)
     return render_template('post.html', title="Post", form=form, games = allgames)
+
+@app.route('/sellgame', methods=['GET', 'POST'])
+def sellgame():
+    form = SellItem()
+    allSell = Market.query.all()
+    if form.validate_on_submit():
+        sell = Market(
+            game = form.game.data,
+            description = form.description.data,
+            price = form.price.data,
+            seller = current_user.user_name
+        )
+
+        db.session.add(sell)
+        db.session.commit()
+        return redirect(url_for('market'))
+    else:
+        print(form.errors)
+    return render_template('sell_item.html', title = 'Sell', sell = allSell )
 
 @app.route('/addgame', methods=['GET', 'POST'])
 @login_required

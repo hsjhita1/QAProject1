@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block body_content %}
+<h1>SELL YOUR GAMES HERE</h1>
+    <form method='POST' action="">
+        {{ form.hidden_tag() }}
+        {{ form.game.label }}
+        {{ form.game }}
+        {% if form.game.errors %}
+            <div>
+                {% for error in form.game.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <br>
+        {{ form.price.label }}
+        {{ form.price }}
+        {% if form.price.errors %}
+        <div>
+            {% for error in form.price.errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <br>
+        {{ form.description.label }}
+        {{ form.description }}
+        {% if form.description.errors %}
+            <div>
+                {% for error in form.description.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <br>
+        {{ form.submit }}
+    </form>
+    {% for game in games %}
+    <div>
+        <p>---------------------------------------------------------</p>
+        <p><b> ID : </b> {{ game.id }} <b> Name: </b> {{ game.game_name }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}

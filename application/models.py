@@ -38,6 +38,17 @@ class Games(db.Model):
     game_name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(500), nullable=True)
     posts = db.relationship('Posts', backref = 'gameName', lazy = True)
+    market = db.relationship('Market', backref = 'gameMarket', lazy = True)
 
     def __repr__(self):
         return ''.join(['GameID: ', str(self.id), '\r\n', 'Game Name: ', self.game_name])
+
+class Market(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game = db.Column(db.Integer, db.ForeignKey('games.id'), nullable = False)
+    seller = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.String(500), nullable=True)
+    price = db.Column(db.Float(7,2), nullable = False)
+
+    def __repr__(self):
+        return ''.join(['ID : ' , str(self.id), '\r\n', 'Game : ' , str(self.game)])
