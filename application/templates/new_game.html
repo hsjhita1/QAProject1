@@ -3,16 +3,6 @@
     <div class='form'>
         <form method='POST' action=''>
             {{ form.hidden_tag() }}
-            {{ form.title.label }}
-            {{ form.title }}
-            {% if form.title.errors %}
-                <div>
-                    {% for error in form.title.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <br>
             {{ form.game.label }}
             {{ form.game }}
             {% if form.game.errors %}
@@ -23,11 +13,11 @@
                 </div>
             {% endif %}
             <br>
-            {{ form.content.label }}
-            {{ form.content }}
-            {% if form.content.errors %}
+            {{ form.description.label }}
+            {{ form.description }}
+            {% if form.description.errors %}
                 <div>
-                    {% for error in form.content.errors %}
+                    {% for error in form.description.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
@@ -36,11 +26,4 @@
             {{ form.submit }}
         </form>
     </div>
-
-    {% for game in games %}
-		<div>
-			<p>---------------------------------------------------------</p>
-			<p><b> ID : </b> {{ game.id }} <b> Name: </b> {{ game.game_name }}</p>
-		</div>
-		{% endfor %}
 {% endblock %}

@@ -1,25 +1,24 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from application.models import Users
 
 class PostForm(FlaskForm):
 
-    title = StringField("Title",
+    title = StringField("Title : ",
         validators = [
             DataRequired(),
             Length(min = 2, max = 100)
         ]
     )
 
-    game = StringField("Game",
+    game = IntegerField("Game ID : ",
         validators = [
-            DataRequired(),
-            Length(min = 2, max = 100)
+            DataRequired()
         ]
     )
 
-    content = StringField("Content",
+    content = StringField("Content : ",
         validators = [
             DataRequired(),
             Length(min = 2, max = 500)
@@ -28,41 +27,58 @@ class PostForm(FlaskForm):
 
     submit = SubmitField('Submit Content')
 
+class NewGame(FlaskForm):
+    game = StringField("Game : ",
+        validators = [
+            DataRequired(),
+            Length(min = 1, max = 500)
+        ]
+    )
+
+    description = StringField("Description : ",
+        validators = [
+            DataRequired(),
+            Length(min = 2, max = 500)
+        ]
+    )
+
+    submit = SubmitField('Submit Game')
+
 class RegistrationForm(FlaskForm):
-    user_name = StringField("User Name",
+    user_name = StringField("User Name : ",
         validators = [
             DataRequired(),
             Length(min = 2, max = 30)
         ]
     )
 
-    first_name = StringField("First Name",
+    first_name = StringField("First Name : ",
         validators = [
             DataRequired(),
             Length(min = 2, max = 30)
         ]
     )
 
-    last_name = StringField("Last Name",
+    last_name = StringField("Last Name : ",
         validators = [
             DataRequired(),
             Length(min = 2, max = 30)
         ]
     )
 
-    email = StringField('Email',
+    email = StringField('Email : ',
         validators = [
             DataRequired(),
             Email()
         ]
     )
-    password = PasswordField('Password',
+    password = PasswordField('Password : ',
         validators = [
             DataRequired(),
             Length(min = 8)
         ]
     )
-    confirm_password = PasswordField('Confirm Password',
+    confirm_password = PasswordField('Confirm Password : ',
         validators = [
             DataRequired(),
             EqualTo('password')
@@ -77,14 +93,14 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email',
+    email = StringField('Email : ',
         validators = [
             DataRequired(),
             Email()
         ]
     )
 
-    password = PasswordField('Password',
+    password = PasswordField('Password : ',
         validators = [
             DataRequired()
         ]
