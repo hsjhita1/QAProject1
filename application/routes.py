@@ -106,7 +106,7 @@ def addgame():
             )
             db.session.add(gameData)
             db.session.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('games'))
         else:
             print(form.errors)
     else:
@@ -175,16 +175,26 @@ def add_collection():
     form = AddGameCol()
     allgames = Games.query.all()
     gameExists = Games.query.filter_by(id = form.game.data).first()
+    allUsersGames = UserGames.query.filter_by(user = current_user.user_name).all()
+    exists = db.session.query(db.exists().where(UserGames.user == current_user.user_name and UserGames.game == form.game.data)).scalar()
+
+
     if form.validate_on_submit():
-        addCol = UserGames(
-            game = form.game.data,
-            user = current_user.user_name
-        )
-        if not gameExists:
-            return redirect(url_for('addgame'))
-        db.session.add(addCol)
-        db.session.commit()
-        return redirect(url_for('collection'))
+        if not exists:
+            addCol = UserGames(
+                game = form.game.data,
+                user = current_user.user_name
+            )
+            if not gameExists:
+                return redirect(url_for('addgame'))
+        
+            db.session.add(addCol)
+            db.session.commit()
+            return redirect(url_for('collection'))
+        else:
+            print('Already in collection')
+            return redirect(url_for('collection'))
     else:
         print(form.errors)
+
     return render_template('addcol.html', title = 'Add to Collection', form = form, games = allgames)
