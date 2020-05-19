@@ -45,6 +45,16 @@ class NewGame(FlaskForm):
 
     submit = SubmitField('Submit Game')
 
+class AddGameCol(FlaskForm):
+    game = StringField("GameID : ",
+        validators = [
+            DataRequired(),
+            Length(min = 1, max = 500)
+        ]
+    )
+
+    submit = SubmitField('Submit Game')
+
 class SellItem(FlaskForm):
     game = StringField("Game : ",
         validators = [

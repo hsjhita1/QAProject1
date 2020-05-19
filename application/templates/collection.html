@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block body_content %}
     <h1>{{ title }}</h1>
+    <form action="{{ url_for('add_collection') }}">
+        <button type="submit">Add new game</button>
+    </form>
     {% for game in games %}
     <div>
         <a href="{{ url_for('gameName', name=game.userGames.game_name)}}">{{ game.userGames.game_name }}</a>

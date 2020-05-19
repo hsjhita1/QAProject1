@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
 from application.models import Posts, Users, Games, Market, UserGames
-from application.forms import PostForm, RegistrationForm, LoginForm, NewGame, UpdateAccountForm, SellItem
+from application.forms import PostForm, RegistrationForm, LoginForm, NewGame, UpdateAccountForm, SellItem, AddGameCol
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/')
@@ -106,12 +106,12 @@ def addgame():
             )
             db.session.add(gameData)
             db.session.commit()
-            return redirect(url_for('post'))
+            return redirect(url_for('home'))
         else:
             print(form.errors)
     else:
         print('Game already exists')
-        return redirect(url_for('post'))
+        return redirect(url_for('home'))
     return render_template('new_game.html', title='Add Game', form = form)
 
 @app.route('/logout')
@@ -168,3 +168,23 @@ def collection():
     user_name = current_user.user_name
     games = UserGames.query.filter_by(user = user_name)
     return render_template('collection.html', title='Collection', games = games)
+
+@app.route('/addgamecol', methods=['GET', 'POST'])
+@login_required
+def add_collection():
+    form = AddGameCol()
+    allgames = Games.query.all()
+    gameExists = Games.query.filter_by(id = form.game.data).first()
+    if form.validate_on_submit():
+        addCol = UserGames(
+            game = form.game.data,
+            user = current_user.user_name
+        )
+        if not gameExists:
+            return redirect(url_for('addgame'))
+        db.session.add(addCol)
+        db.session.commit()
+        return redirect(url_for('collection'))
+    else:
+        print(form.errors)
+    return render_template('addcol.html', title = 'Add to Collection', form = form, games = allgames)

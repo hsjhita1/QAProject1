@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body_content %}
+    <div class='form'>
+        <form method='POST' action=''>
+            {{ form.hidden_tag() }}
+            {{ form.game.label }}
+            {{ form.game }}
+            {% if form.game.errors %}
+                <div>
+                    {% for error in form.game.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <br>
+            {{ form.submit }}
+        </form>
+    </div>
+    {% for game in games %}
+    <div>
+        <p>---------------------------------------------------------</p>
+        <p><b> ID : </b> {{ game.id }} <b> Name: </b> {{ game.game_name }}</p>
+    </div>
+{% endfor %}
+{% endblock %}
