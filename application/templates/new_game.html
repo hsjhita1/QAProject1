@@ -2,6 +2,7 @@
 {% block body_content %}
     <div class='form'>
         <form method='POST' action=''>
+            <legend>{{ legend }}</legend>
             {{ form.hidden_tag() }}
             {{ form.game.label }}
             {{ form.game }}

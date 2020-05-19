@@ -87,7 +87,7 @@ def addgame():
     else:
         print('Game already exists')
         return redirect(url_for('home'))
-    return render_template('new_game.html', title='Add Game', form = form)
+    return render_template('new_game.html', title='Add Game', form = form, legend = 'New Game')
 
 @app.route('/logout')
 @login_required
@@ -105,7 +105,7 @@ def gameName(name):
     gameID = Games.query.filter_by(game_name = name).first()
     id = gameID.id
     #post = Posts.query.filter_by(game = id).all()
-    return render_template('one_game.html', title = name)
+    return render_template('one_game.html', title = name, game = gameID)
 
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -123,6 +123,22 @@ def account():
         form.email.data = current_user.email        
     return render_template('account.html', title='Update Account', form=form)
 
+@app.route('/games/<name>/update', methods=['GET', 'POST'])
+@login_required
+def updateGame(name):
+    game = Games.query.filter_by(game_name = name).first()
+    id = game.id
+    form = NewGame()
+    if form.validate_on_submit():
+        game.game_name = form.game.data
+        game.description = form.description.data
+        db.session.commit()
+        return redirect(url_for('games'))
+    elif request.method == 'GET':
+        form.game.data = game.game_name
+        form.description.data = game.description
+    return render_template('new_game.html', title = 'Update', form = form,  legend = 'Update Game')
+
 
 @app.route('/account/delete', methods=['GET', 'POST'])
 @login_required
@@ -137,6 +153,26 @@ def account_delete():
     db.session.commit()
     return redirect(url_for('register'))
 
+@app.route('/games/<name>/delete')
+@login_required
+def gameDelete(name):
+    gameID = Games.query.filter_by(game_name = name).first()
+    id = gameID.id
+    userGame = UserGames.query.filter_by(game = id)
+    for game in userGame:
+        db.session.delete(game)
+    db.session.commit()
+    selling = Market.query.filter_by(game = id)
+    for sell in selling:
+        db.session.delete(sell)
+    db.session.commit()
+    gameExists = Games.query.filter_by(id = id)
+    for game in gameExists:
+        db.session.delete(game)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('home.html', title = name)
+
 @app.route('/collection')
 @login_required
 def collection():
@@ -150,9 +186,9 @@ def add_collection():
     form = AddGameCol()
     allgames = Games.query.all()
     gameExists = Games.query.filter_by(id = form.game.data).first()
-    exists = db.session.query(db.exists().where(UserGames.user == current_user.user_name and UserGames.game == form.game.data)).scalar()
+    #exists = db.session.query(db.exists().where(UserGames.user == current_user.user_name and UserGames.game == form.game.data)).scalar()
     if form.validate_on_submit():
-        if not exists:
+    #    if not exists:
             addCol = UserGames(
                 game = form.game.data,
                 user = current_user.user_name
@@ -162,9 +198,9 @@ def add_collection():
             db.session.add(addCol)
             db.session.commit()
             return redirect(url_for('collection'))
-        else:
+    #    else:
             print('Already in collection')
-            return redirect(url_for('collection'))
+    #        return redirect(url_for('collection'))
     else:
         print(form.errors)
     return render_template('addcol.html', title = 'Add to Collection', form = form, games = allgames)
