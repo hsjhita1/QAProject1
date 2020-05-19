@@ -7,19 +7,18 @@
 			<a href="{{ url_for('home') }}">Home Page</a>
 			<a href="{{ url_for('games') }}">Games</a>
 			<a href="{{ url_for('market') }}">Market</a>
-			<a href="{{ url_for('post') }}">Post</a>
+			<a href="{{ url_for('collection') }}">Collection</a>
 			<a href="{{ url_for('account') }}">Account</a>
 			<a href="{{ url_for('logout') }}">Logout</a>
 			<p>Welcome {{ current_user.user_name }}</p>
-			<p>---------------------------------------------------------</p>
 		{% else %}
 			<a href="{{ url_for('home') }}">Home Page</a>
-			<a href="{{ url_for('post') }}">Post</a>
 			<a href="{{ url_for('games') }}">Games</a>
 			<a href="{{ url_for('market') }}">Market</a>
 			<a href="{{ url_for('login') }}">Login</a>
 			<a href="{{ url_for('register') }}">Register</a>
 		{% endif %}
+		<p>---------------------------------------------------------</p>
 	</head>
 	<body>
 		{% block body_content  %}{% endblock  %}

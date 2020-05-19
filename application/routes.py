@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
-from application.models import Posts, Users, Games, Market
+from application.models import Posts, Users, Games, Market, UserGames
 from application.forms import PostForm, RegistrationForm, LoginForm, NewGame, UpdateAccountForm, SellItem
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -45,7 +45,6 @@ def register():
             email = form.email.data,
             password = hash_pass
         )
-
         db.session.add(user)
         db.session.commit()
 
@@ -66,11 +65,8 @@ def post():
             content = form.content.data,
             author = current_user
         )
-
         if not gameExists:
-            return redirect(url_for('addgame'))
-            
-
+            return redirect(url_for('addgame'))   
         db.session.add(postData)
         db.session.commit()
         return redirect(url_for('home'))
@@ -165,3 +161,10 @@ def account_delete():
     db.session.delete(account)
     db.session.commit()
     return redirect(url_for('register'))
+
+@app.route('/collection')
+@login_required
+def collection():
+    user_name = current_user.user_name
+    games = UserGames.query.filter_by(user = user_name)
+    return render_template('collection.html', title='Collection', games = games)
