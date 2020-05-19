@@ -1,18 +1,4 @@
 {% extends "layout.html" %}
 {% block body_content %}
 	<h1>{{ title }}</h1>
-
-	{% if posts %}
-		{% for post in posts %}
-		<div>
-			<h2>{{ post.title }}</h2>
-			<p><b> - Username: </b>{{ post.author.user_name }}</p>
-			<p> -- {{ post.content }}</p>
-		</div>
-		{% endfor %}
-		<a href="{{ url_for('post') }}">Click here to add a post</a>
-	{% else %}
-		<p>There are no posts</p>
-		<a href="{{ url_for('post') }}">Click here to add a post</a>
-	{% endif %}
 {% endblock %}

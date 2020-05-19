@@ -1,14 +1,13 @@
 from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
-from application.models import Posts, Users, Games, Market, UserGames
-from application.forms import PostForm, RegistrationForm, LoginForm, NewGame, UpdateAccountForm, SellItem, AddGameCol
+from application.models import Users, Games, Market, UserGames
+from application.forms import RegistrationForm, LoginForm, NewGame, UpdateAccountForm, SellItem, AddGameCol
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/')
 @app.route('/home')
 def home():
-    postData = Posts.query.all()
-    return render_template('home.html', title='Home Page', posts=postData)
+    return render_template('home.html', title='Home Page')
 
 @app.route('/market')
 def market():
@@ -48,31 +47,8 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('post'))
-    return render_template('register.html', title='Register Page', form = form)
-
-
-@app.route('/post', methods=['GET', 'POST'])
-@login_required
-def post():
-    form = PostForm()
-    allgames = Games.query.all()
-    gameExists = Games.query.filter_by(id = form.game.data).first()
-    if form.validate_on_submit():
-        postData = Posts(
-            title = form.title.data,
-            game = form.game.data,
-            content = form.content.data,
-            author = current_user
-        )
-        if not gameExists:
-            return redirect(url_for('addgame'))   
-        db.session.add(postData)
-        db.session.commit()
         return redirect(url_for('home'))
-    else:
-        print(form.errors)
-    return render_template('post.html', title="Post", form=form, games = allgames)
+    return render_template('register.html', title='Register Page', form = form)
 
 @app.route('/sellgame', methods=['GET', 'POST'])
 def sellgame():
@@ -85,7 +61,6 @@ def sellgame():
             price = form.price.data,
             seller = current_user.user_name
         )
-
         db.session.add(sell)
         db.session.commit()
         return redirect(url_for('market'))
@@ -129,8 +104,8 @@ def games():
 def gameName(name):
     gameID = Games.query.filter_by(game_name = name).first()
     id = gameID.id
-    post = Posts.query.filter_by(game = id).all()
-    return render_template('one_game.html', title = name, posts = post)
+    #post = Posts.query.filter_by(game = id).all()
+    return render_template('one_game.html', title = name)
 
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -152,11 +127,11 @@ def account():
 @app.route('/account/delete', methods=['GET', 'POST'])
 @login_required
 def account_delete():
-    user = current_user.id
-    account = Users.query.filter_by(id = user).first()
-    posts = Posts.query.filter_by(user_id = user)
-    for post in posts:
-        db.session.delete(post)
+    user = current_user.user_name
+    account = Users.query.filter_by(id = current_user.id).first()
+    games = UserGames.query.filter_by(user = user)
+    for game in games:
+        db.session.delete(game)
     logout_user()
     db.session.delete(account)
     db.session.commit()
@@ -175,10 +150,7 @@ def add_collection():
     form = AddGameCol()
     allgames = Games.query.all()
     gameExists = Games.query.filter_by(id = form.game.data).first()
-    allUsersGames = UserGames.query.filter_by(user = current_user.user_name).all()
     exists = db.session.query(db.exists().where(UserGames.user == current_user.user_name and UserGames.game == form.game.data)).scalar()
-
-
     if form.validate_on_submit():
         if not exists:
             addCol = UserGames(
@@ -187,7 +159,6 @@ def add_collection():
             )
             if not gameExists:
                 return redirect(url_for('addgame'))
-        
             db.session.add(addCol)
             db.session.commit()
             return redirect(url_for('collection'))
@@ -196,5 +167,4 @@ def add_collection():
             return redirect(url_for('collection'))
     else:
         print(form.errors)
-
     return render_template('addcol.html', title = 'Add to Collection', form = form, games = allgames)

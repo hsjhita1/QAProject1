@@ -4,30 +4,6 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from application.models import Users
 from flask_login import current_user
 
-class PostForm(FlaskForm):
-
-    title = StringField("Title : ",
-        validators = [
-            DataRequired(),
-            Length(min = 2, max = 100)
-        ]
-    )
-
-    game = IntegerField("Game ID : ",
-        validators = [
-            DataRequired()
-        ]
-    )
-
-    content = StringField("Content : ",
-        validators = [
-            DataRequired(),
-            Length(min = 2, max = 500)
-        ]
-    )
-
-    submit = SubmitField('Submit Content')
-
 class NewGame(FlaskForm):
     game = StringField("Game : ",
         validators = [
