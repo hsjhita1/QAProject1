@@ -8,6 +8,8 @@ sudo apt install python3-pip -y
 
 sudo apt install python3-venv -y
 
+sudo apt install mysql-server -y
+
 python3 -m venv venv
 
 . /var/lib/jenkins/workspace/flask-project/venv/bin/activate
