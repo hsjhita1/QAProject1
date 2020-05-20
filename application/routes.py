@@ -205,10 +205,10 @@ def add_collection():
         print(form.errors)
     return render_template('addcol.html', title = 'Add to Collection', form = form, games = allgames)
 
-@app.route('/delgamecol', methods=['GET', 'POST'])
-def del_collection():
+@app.route('/collection/<name>/delete', methods=['GET', 'POST'])
+def del_collection(name):
     user = current_user.user_name
-    usergames = UserGames.query.filter_by(user = user)
+    usergames = UserGames.query.filter_by(user = user).filter_by(game = name)   
     for game in usergames:
         db.session.delete(game)
     db.session.commit()
