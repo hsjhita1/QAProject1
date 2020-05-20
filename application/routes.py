@@ -170,7 +170,7 @@ def gameDelete(name):
     for game in gameExists:
         db.session.delete(game)
         db.session.commit()
-        return redirect(url_for('home'))
+        return redirect(url_for('games'))
     return render_template('home.html', title = name)
 
 @app.route('/collection')
@@ -204,3 +204,12 @@ def add_collection():
     else:
         print(form.errors)
     return render_template('addcol.html', title = 'Add to Collection', form = form, games = allgames)
+
+@app.route('/delgamecol', methods=['GET', 'POST'])
+def del_collection():
+    user = current_user.user_name
+    usergames = UserGames.query.filter_by(user = user)
+    for game in usergames:
+        db.session.delete(game)
+    db.session.commit()
+    return redirect(url_for('collection'))

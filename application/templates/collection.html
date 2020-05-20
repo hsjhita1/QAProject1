@@ -7,6 +7,9 @@
     {% for game in games %}
     <div>
         <a href="{{ url_for('gameName', name=game.userGames.game_name)}}">{{ game.userGames.game_name }}</a>
+        <form action="{{ url_for('del_collection', id = game.id) }}">
+            <button type="submit">Delete game</button>
+        </form>
     </div>
     {% endfor %}
 {% endblock %}
