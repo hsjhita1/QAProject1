@@ -16,4 +16,6 @@ source /var/lib/jenkins/workspace/flask-project/venv/bin/activate
 
 pip3 install -r requirements.txt
 
-python3 /var/lib/jenkins/workspace/flask-project/app.py
+cd /var/lib/jenkins/workspace/flask-project/
+
+gunicorn --bind=0.0.0.0:5000 app:app
