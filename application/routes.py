@@ -51,6 +51,7 @@ def register():
     return render_template('register.html', title='Register Page', form = form)
 
 @app.route('/sellgame', methods=['GET', 'POST'])
+@login_required
 def sellgame():
     form = SellItem()
     allSell = Market.query.all()
@@ -86,7 +87,7 @@ def addgame():
             print(form.errors)
     else:
         print('Game already exists')
-        return redirect(url_for('home'))
+        return redirect(url_for('games'))
     return render_template('new_game.html', title='Add Game', form = form, legend = 'New Game')
 
 @app.route('/logout')
@@ -104,7 +105,6 @@ def games():
 def gameName(name):
     gameID = Games.query.filter_by(game_name = name).first()
     id = gameID.id
-    #post = Posts.query.filter_by(game = id).all()
     return render_template('one_game.html', title = name, game = gameID)
 
 @app.route('/account', methods=['GET', 'POST'])
@@ -171,7 +171,7 @@ def gameDelete(name):
         db.session.delete(game)
         db.session.commit()
         return redirect(url_for('games'))
-    return render_template('home.html', title = name)
+    return render_template('games.html', title = name)
 
 @app.route('/collection')
 @login_required
@@ -199,7 +199,7 @@ def add_collection():
             db.session.commit()
             return redirect(url_for('collection'))
     #    else:
-            print('Already in collection')
+    #        print('Already in collection')
     #        return redirect(url_for('collection'))
     else:
         print(form.errors)
