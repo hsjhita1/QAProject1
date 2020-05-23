@@ -1,11 +1,11 @@
 import unittest
-
-from flask import url_for
+from blinker import Namespace
+from flask import url_for, template_rendered
 from flask_testing import TestCase
-
 from application import app, db, bcrypt
 from application.models import Users, Games, Market, UserGames
 from os import getenv
+from contextlib import contextmanager
 
 class TestBase(TestCase):
     def create_app(self):
@@ -159,7 +159,7 @@ class TestViews(TestBase):
             )
             self.assertEqual(Users.query.count(), 2)
 
-    def test_update_game(self):
+    def test_update_game_post(self):
         # Checks to see if a game can update
         with self.client:
             self.client.post(
@@ -187,6 +187,11 @@ class TestViews(TestBase):
                 follow_redirects = True
             )
             self.assertIn(b'Updated Game', response.data)
+
+            response2 = self.client.get(
+                url_for('updateGame', name = 'Updated Game'),
+            )
+            self.assertIn(b'Updated Game', response2.data)
 
     def test_update_account(self):
         with self.client:
@@ -428,3 +433,21 @@ class TestViews(TestBase):
                 follow_redirects = True
             )
             self.assertEqual(Games.query.count(), 1)
+
+class TestNotRenderTemplate(TestCase):
+
+    render_templates = False
+
+    def create_app(self):
+        config_name = 'testing'
+        app.config.update(
+            SQLALCHEMY_DATABASE_URI = getenv('TEST_FLASK_DB_URI'),
+            SECRET_KEY = getenv('TEST_FLASK_SECRET_KEY'),
+            WTF_CSRF_ENABLED = False,
+            DEBUG = True
+        )
+        return app
+    
+    def test_home(self):
+        response = self.client.get('/')
+        self.assert_template_used('home.html')
