@@ -2,12 +2,14 @@
 # Table of Contents
 * [Project Brief](#projectbrief)
   * [Scope & Additional Requirements](#scopeadditional)
+  * [Risk Assessment](#riskassessment)
   * [Constraints](#constraints)
 * [Architecture](#architecture)
   * [Entity Relationship Diagrams](#entitydiagram)
   * [Project Tracking](#projecttracking)
 * [Testing](#testing)
 * [Deployment](#deployment)
+* [Self Reflection](#selfreflection)
 
 ## Project Brief <a name="projectbrief"></a>
 The purpose of this project was 'to create a CRUD application with utilisation of supporting tools, methodologies and technologies that encapsulate all core modules covered during training'.
@@ -33,6 +35,11 @@ In addition to the project brief, there are a set of requirements which the proj
   * Using the feature-branch model
   * Built through a CI server
   * Deployed to a cloud based virtual machine
+  
+### Risk Assessment <a name="riskassessment"></a>
+For this project, there were several risks which had to be indentified before the main body of the project was undertaken. This risk assessment included security of the database and application, and potential costs which the project may incur.
+
+[Link to risk assessment](https://github.com/hsjhita1/QAProject1/blob/master/Documentation/RiskAssessmentQAProject1.xlsx)
 
 ### Constraints <a name="constraints"></a>
 Due to the limited time and training, there were constraints in the project which mainly impacted to choice of technology and services used in the project. The application had to use technology and services discussed during training.
@@ -69,12 +76,28 @@ https://trello.com/b/lLE9XSb2/project
 ## Testing <a name="testing"></a>
 Due to time constraints, only unit testing was implemented rather than both unit and integration testing. Unit testing was conducted using PyTest
 
-[Link to coverage report](https://github.com/hsjhita1/QAProject1/blob/master/test_results/test-at-May-05-on-20-14:27.pdf)
+[Link to coverage report](https://github.com/hsjhita1/QAProject1/blob/testing/test_results/test-at-May-05-on-20-20:37.pdf)
 
-As shown in the coverage report, 92% coverage was achieved using PyTest. While this coverage shows that in the tests, 92% of code was called, this does not reflect on real world application.
+As shown in the coverage report, 95% coverage was achieved using PyTest. While this coverage shows that in the tests, 95% of code was called, this does not reflect on real world application.
 
 ## Deployment <a name="deployment"></a>
 ![alt text](https://github.com/hsjhita1/QAProject1/blob/master/Documentation/CI%20Pipeline.png "Pipeline")
 The image above shows the process of how the application was deployed. Initially, code was created in Visual Studio Code using the Python and Flask language. This code was then pushed to a VCS, in this case GitHub, where it would be stored inside a repository. To keep track of what code was completed, a Trello board was used. Once a task had been completed on Trello, the task was attached to the commit in which the code was in. Once a new task was taken on, the repository was pulled to make sure the latest code was on hand and then the task would then be carried out. 
 
 While this was being carried out, a WebHook would automatically pull the code from GitHub to the CI Server, Jenkins. Using a shell script, the build was made automatically. From this, multiple operations were taking place. The first would be testing. The code would be tested to make sure it works as intended. Alongside this, a testing environment would be active which also allowed for dynamic and live development which meant some changes could be seen in real time. And finally, the live version of the application would be running using GUnicorn and a GCP Virtual Machine.
+
+## Self Reflection <a name="selfreflection"></a>
+The final build of the application met the necessary criteria which the projet had to fufuill. The application was able to meet the CRUD criteria. It had also managed to meet the additional requirements set for the project in acheiving multiple tables with relationships and achieving a test coverage of 95%.
+
+While I can say the overall project was a success, there are a few things on which I would improve on next time if I were to undertake a similar project.
+1. Implementing the market feature to its fullest extent. 
+ 
+   The idea for the market page was that users could list games in their collection for sale and other users could view and maybe purchase them. However, this was not fully implemented. Users could list games onto the market but even those that had existed outside of the collection. Upon reflection, I realise how I could have coded the feature in correctly given how my knowledge in Flask and Python had improved over the course of this project.
+   
+2. Implementing all the tables and columns missed
+
+   After creating the inital tables and dataset, I had realised that the tables and columns I had not created would have created extra functionality of the application, and features which were not feasible with the current tables, could have been made.
+   
+3. Improving the appearance of the site
+
+   While not a key element of the project, the website was very basic in terms of its appearance and perhaps could have used CSS styling to improve the appearance and also the usability of the site.
