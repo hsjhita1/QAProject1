@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body_content %}
-    <form action="{{ url_for('sellgame' }}">
+    <form action="{{ url_for('sellgame') }}">
         <button type="submit">Sell game</button>
     </form>
     {% if sell %}
