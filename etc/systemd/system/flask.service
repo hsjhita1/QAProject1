@@ -2,7 +2,7 @@
 Description=QAProject 1
 [Service]
 User=jenkins
-ExecStart=/var/lib/jenkins/workspace/flask-project/script/installation.sh
+ExecStart=/var/lib/jenkins/workspace/flask-project/script/after-installation.sh
 
 [Install]
 WantedBy=multi-user.target
