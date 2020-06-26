@@ -1,16 +1,12 @@
 version: 0.2
 
-env:
-  variables:
-    FLASK_DB_URI: $FLASK_DB_URI
-    FLASK_SECRET_KEY: $FLASK_SECRET_KEY
-
 phases:
   install:
     runtime-versions:
-      python: 3.8
+      python: latest
   pre_build:
     commands:
+      - apt install update -y
       - apt-get install -y python3 python3-pip python3-venv
       - python3.6 -m venv test_venv
       - . test_venv/bin/activate
