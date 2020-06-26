@@ -1,12 +1,14 @@
 version: 0.2
+
 phases:
   install:
-    runtime-versions:
-      python: 3.8
-  pre_build:
     commands:
+      - echo Setting up virtualenv
+      - python -m venv venv
+      - source venv/bin/activate
+      - echo Installing requirements from file
       - pip install -r requirements.txt
-      - python app.py
+    
 artifacts:
   files:
     - '**/*'
