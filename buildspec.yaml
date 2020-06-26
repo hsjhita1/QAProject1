@@ -9,7 +9,7 @@ phases:
   install:
     runtime-versions:
       python: 3.8
-  pre-build:
+  pre_build:
     commands:
       - apt-get install -y python3-venv python3-pip
       - python3 -m venv venv
