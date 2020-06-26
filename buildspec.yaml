@@ -15,6 +15,9 @@ phases:
       - python3 -m venv venv
       - . venv/bin/activate
       - pip install -r requirements.txt
+  build:
+    commands:
+      - echo Prebuild complete
 artifacts:
   files:
     - '**/*'
